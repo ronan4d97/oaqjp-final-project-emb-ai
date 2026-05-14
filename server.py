@@ -16,6 +16,9 @@ def emo_detector():
     text_to_analyze = request.args.get("textToAnalyze") # get the text from the HTML interface
     analysis_result = emotion_detector(text_to_analyze) # run the emotion detection function on the text
     
+    if analysis_result["dominant_emotion"] is None:
+        return "Invalid input! Try again."
+    
     # Construct the final string to be returned as output
     final_string = "For the given statement, the system response is "
     for emotion, value in analysis_result.items():
