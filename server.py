@@ -1,3 +1,8 @@
+''' This code is responsible for running the Flask application 
+    and rendering the HTML interface for the emotion detection system. 
+    It defines the routes for the application and handles the logic 
+    for processing user input and returning the results of emotion detection.
+'''
 # Importing necessary flask modules
 from flask import Flask, render_template, request
 
@@ -8,17 +13,16 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emo_detector():
-    ''' This code receives the text from the HTML interface and 
-        runs emotion detection over it using emotion_detector()
-        function. The output returned shows the final string as per the assessment
-        for the provided text.
-    '''
-    text_to_analyze = request.args.get("textToAnalyze") # get the text from the HTML interface
-    analysis_result = emotion_detector(text_to_analyze) # run the emotion detection function on the text
-    
+    '''This code receives the text from the HTML interface and
+    runs emotion detection over it using emotion_detector()
+    function. The output returned shows the final string as per the assessment
+    for the provided text.'''
+    # get the text from the HTML interface
+    text_to_analyze = request.args.get("textToAnalyze")
+    # run the emotion detection function on the text
+    analysis_result = emotion_detector(text_to_analyze)
     if analysis_result["dominant_emotion"] is None:
         return "Invalid input! Try again."
-    
     # Construct the final string to be returned as output
     final_string = "For the given statement, the system response is "
     for emotion, value in analysis_result.items():
@@ -32,12 +36,11 @@ def emo_detector():
 
 @app.route("/")
 def render_index_page():
-    ''' This function initiates the rendering of the main application
-        page over the Flask channel
+    '''This function initiates the rendering of the main application 
+       page over the Flask channel
     '''
     return render_template("index.html") # render the index.html page
 
 if __name__ == "__main__":
-    ''' This functions executes the flask app and deploys it on localhost:5000
-    '''
+    # This functions executes the flask app and deploys it on localhost:5000
     app.run(host="0.0.0.0", port=5000, debug=True)
